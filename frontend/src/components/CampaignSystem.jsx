@@ -9,12 +9,12 @@ export default function CampaignSystem() {
   const c = t.campaigns;
 
   const images = [
-    ASSETS.beautyClose,
-    ASSETS.viralTrend,
-    ASSETS.travelLuxury,
-    ASSETS.livestream,
-    ASSETS.blushAbstract,
-    ASSETS.champagne,
+    ASSETS.campReels,
+    ASSETS.campTiktok,
+    ASSETS.campYoutube,
+    ASSETS.campLive,
+    ASSETS.campStory,
+    ASSETS.campLaunch,
   ];
 
   return (

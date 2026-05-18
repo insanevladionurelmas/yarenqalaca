@@ -11,10 +11,10 @@ export default function SocialSlider() {
     { src: ASSETS.tiktokScreenshot, label: "TikTok • 5.6M+" },
     { src: ASSETS.youtubeScreenshot, label: "YouTube • 776K+" },
     { src: ASSETS.kickScreenshot, label: "Kick • Live" },
-    { src: ASSETS.fashionEditorial, label: "Fashion Campaign" },
-    { src: ASSETS.beautyClose, label: "Beauty Editorial" },
-    { src: ASSETS.travelLuxury, label: "Travel Story" },
-    { src: ASSETS.laSunset, label: "LA Lifestyle" },
+    { src: ASSETS.portrait, label: "Editorial Campaign" },
+    { src: ASSETS.impactEditorial, label: "Beauty Editorial" },
+    { src: ASSETS.catTravel, label: "Travel Story" },
+    { src: ASSETS.catLifestyle, label: "Lifestyle Editorial" },
   ];
 
   // Duplicate for infinite marquee

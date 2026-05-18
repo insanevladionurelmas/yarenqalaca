@@ -11,13 +11,13 @@ const dict = {
       cta: "Start Collaboration",
     },
     hero: {
-      eyebrow: "Multi-Platform Digital Personality",
+      eyebrow: "Selective · Multi-Platform · Globally Marketable",
       titleA: "Yaren",
       titleB: "Alaca",
       subtitle:
-        "A cross-platform creator with massive reach across Instagram, TikTok, YouTube and Kick — built for global brand campaigns.",
+        "A cross-platform creator with massive reach across Instagram, TikTok, YouTube and Kick. Brand collaborations are accepted by application — built for global, editorially aligned campaigns.",
       cta1: "Discover Platforms",
-      cta2: "Request Media Kit",
+      cta2: "Apply for Collaboration",
       scroll: "Scroll",
     },
     platforms: {
@@ -151,13 +151,13 @@ const dict = {
       cta: "İş Birliği Başlat",
     },
     hero: {
-      eyebrow: "Çok Platformlu Dijital Kişilik",
+      eyebrow: "Seçici · Çok Platformlu · Küresel Marka Değeri",
       titleA: "Yaren",
       titleB: "Alaca",
       subtitle:
-        "Instagram, TikTok, YouTube ve Kick'te güçlü kitle erişimine sahip çok platformlu bir içerik üreticisi — küresel marka kampanyaları için tasarlandı.",
+        "Instagram, TikTok, YouTube ve Kick'te güçlü kitle erişimine sahip çok platformlu bir içerik üreticisi. Marka iş birlikleri başvuru ile değerlendirilir — küresel ve editöryel uyumlu kampanyalar için tasarlandı.",
       cta1: "Platformları Keşfet",
-      cta2: "Medya Kit Talep Et",
+      cta2: "İş Birliği için Başvur",
       scroll: "Kaydır",
     },
     platforms: {

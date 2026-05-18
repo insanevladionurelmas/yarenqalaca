@@ -62,6 +62,11 @@ export default function FinalCTA() {
             sub={c.sub}
           />
 
+          <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[rgb(var(--secondary))]/40 border border-[rgb(var(--rose-gold))]/30 text-[10px] tracking-[0.22em] uppercase text-[rgb(var(--foreground))]/70" data-testid="selective-badge">
+            <Sparkles className="w-3 h-3 text-[rgb(var(--rose-gold))]" />
+            By Application · Selective Partnerships
+          </div>
+
           <div className="mt-10 space-y-4">
             <a
               href={SOCIAL_LINKS.email}
@@ -83,7 +88,7 @@ export default function FinalCTA() {
             </a>
 
             <div className="relative aspect-[5/4] rounded-2xl overflow-hidden mt-6">
-              <img src={ASSETS.beautyClose} alt="" className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+              <img src={ASSETS.ctaSide} alt="" className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
               <div className="absolute inset-0 bg-gradient-to-tr from-[rgb(var(--secondary))]/40 via-transparent to-transparent" />
             </div>
           </div>

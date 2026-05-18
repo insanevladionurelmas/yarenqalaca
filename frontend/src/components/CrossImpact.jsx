@@ -116,7 +116,7 @@ export default function CrossImpact() {
         >
           <div className="relative aspect-[4/5] rounded-[1.75rem] overflow-hidden shadow-[0_30px_80px_-30px_rgba(45,36,34,0.3)]">
             <img
-              src={ASSETS.fashionEditorial}
+              src={ASSETS.impactEditorial}
               alt="Cross-platform editorial"
               className="absolute inset-0 w-full h-full object-cover"
             />

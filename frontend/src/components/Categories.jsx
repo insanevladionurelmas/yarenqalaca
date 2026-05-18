@@ -9,14 +9,14 @@ export default function Categories() {
   const c = t.categories;
 
   const images = [
-    ASSETS.beautyMacro,
-    ASSETS.fashionStudio,
-    ASSETS.lifestyleSoft,
-    ASSETS.entertainment,
-    ASSETS.laSunset,
-    ASSETS.livestream,
-    ASSETS.youthCulture,
-    ASSETS.viralTrend,
+    ASSETS.catBeauty,
+    ASSETS.catFashion,
+    ASSETS.catLifestyle,
+    ASSETS.catEntertainment,
+    ASSETS.catTravel,
+    ASSETS.catLive,
+    ASSETS.catYouth,
+    ASSETS.catViral,
   ];
 
   return (
