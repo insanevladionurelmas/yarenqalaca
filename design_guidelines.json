@@ -1,0 +1,153 @@
+{
+  "theme": "light",
+  "archetype": "Luxury Feminine & Pastel Soft (Customized for Premium PR)",
+  "global_aesthetic": "Expensive, global, fashion-oriented, high-status, brand-safe. Soft luxury with Vogue-inspired spacing. No cheap pinks, no childish influencer aesthetics.",
+  "colors": {
+    "css_variables": {
+      "--background": "252 250 248",
+      "--foreground": "45 36 34",
+      "--surface": "245 239 235",
+      "--surface-foreground": "45 36 34",
+      "--primary": "240 168 156",
+      "--primary-foreground": "255 255 255",
+      "--secondary": "247 225 222",
+      "--secondary-foreground": "74 59 57",
+      "--accent-rose-gold": "212 175 55",
+      "--accent-lavender": "230 224 248",
+      "--kick-neon": "152 255 152",
+      "--kick-dark-glass": "20 20 20",
+      "--border": "225 215 210",
+      "--glass-bg": "255 255 255",
+      "--glass-border": "255 255 255"
+    },
+    "descriptions": {
+      "background": "Ivory Cream (#FCFAF8)",
+      "foreground": "Dark Espresso / Warm Charcoal (#2D2422)",
+      "surface": "Champagne Beige (#F5EFEB)",
+      "primary": "Soft Peach / Yavruağzı (#F0A89C)",
+      "secondary": "Pastel Blush Pink (#F7E1DE)",
+      "accent-rose-gold": "Soft Rose Gold (#D4AF37)",
+      "kick-neon": "Elegant Subtle Neon Green (#98FF98) - use for glow/accents only, avoid gamer-cheap look."
+    }
+  },
+  "typography": {
+    "heading_font": "Cormorant Garamond, serif",
+    "body_font": "Outfit, sans-serif",
+    "hierarchy": {
+      "h1": "text-5xl sm:text-6xl lg:text-7xl font-light tracking-tighter leading-none",
+      "h2": "text-4xl sm:text-5xl font-light tracking-tight leading-tight",
+      "h3": "text-2xl sm:text-3xl font-medium",
+      "body": "text-base md:text-lg font-light leading-relaxed tracking-wide",
+      "overline": "text-xs font-semibold tracking-[0.2em] uppercase"
+    },
+    "notes": "Headings MUST be Cormorant Garamond. Keep weights Light or Regular for an editorial look. Never use Inter or Roboto."
+  },
+  "spacing_scale": {
+    "section_padding": "py-24 md:py-32",
+    "container_padding": "px-6 md:px-12 lg:px-24",
+    "grid_gap": "gap-8 md:gap-12 lg:gap-16",
+    "philosophy": "Generous spacing. Allow elements to breathe. Think Vogue magazine layouts. Elements should not feel crammed."
+  },
+  "motion_and_interactions": {
+    "glassmorphism": {
+      "light_glass": "backdrop-blur-xl bg-white/40 border border-white/60 shadow-[0_8px_32px_rgba(0,0,0,0.04)]",
+      "dark_glass_kick": "backdrop-blur-2xl bg-[#141414]/80 border border-white/10 shadow-[0_0_40px_rgba(152,255,152,0.1)]"
+    },
+    "hover_effects": {
+      "cards": "transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)]",
+      "buttons": "transition-all duration-300 hover:scale-105 active:scale-95"
+    },
+    "scroll_reveals": "Use framer-motion. Initial opacity 0, y: 40. Smooth spring transition on whileInView."
+  },
+  "layout_blueprint": {
+    "header": {
+      "style": "Fixed, Crystal Glassmorphism (bg-white/60 backdrop-blur-xl border-b border-white/20)",
+      "components": "Brand Text Logo (YAREN ALACA), Navigation Links, EN | TR elegant language toggle (opacity-50 for inactive, font-semibold for active), Primary CTA."
+    },
+    "sections": [
+      {
+        "name": "1. Premium Hero",
+        "layout": "100vh full-bleed container.",
+        "design": "Cinematic portrait as background. Gradient overlay (bg-gradient-to-t from-[#FCFAF8] via-transparent to-black/20) to ensure header visibility. Text is minimal, bottom-left aligned, huge Cormorant Garamond typography. Floating scroll indicator."
+      },
+      {
+        "name": "2. Digital Platform Power (Dijital Platform Gücü)",
+        "layout": "Bento-style CSS Grid. grid-cols-1 md:grid-cols-2 lg:grid-cols-4. gap-8.",
+        "design": "4 premium interactive cards. IG (Blush gradient), TikTok (Soft pearl), YouTube (Champagne), Kick (Dark frosted glass with subtle neon green edge/glow). Include platform logos, animated counter stats, and 'Visit' CTAs."
+      },
+      {
+        "name": "3. Cross-Platform Digital Impact",
+        "layout": "Luxury editorial section. Two-column asymmetric (text-heavy left, aesthetic image right).",
+        "design": "Large animated numerals (7M+, Hundreds of Millions). Minimalist dividers. Very soft peach backgrounds."
+      },
+      {
+        "name": "4. Content Categories",
+        "layout": "Masonry or 4x2 grid of luxury category blocks.",
+        "design": "Categories: Beauty, Fashion, Lifestyle, Entertainment, Travel, Live Streaming, Youth Culture, Viral Trends. Use background images with heavy hover-zoom effect and dark elegant overlays."
+      },
+      {
+        "name": "5. Multi-Platform Campaign System",
+        "layout": "Step-by-step editorial layout (Agency/Media-kit hybrid).",
+        "design": "Alternating text/image layout. Explain Reels, TikTok, YouTube integrations. Use the skincare/luxury abstract textures here."
+      },
+      {
+        "name": "6. Premium Horizontal Sliders",
+        "layout": "Full-width overflow-hidden slider (react-fast-marquee or Swiper).",
+        "design": "Showcase platform highlights and brand collaboration logos/moments. High-end social proof."
+      },
+      {
+        "name": "7. Final CTA / Lead Capture",
+        "layout": "Centered luxury card layout within a padded section.",
+        "design": "Glassmorphism form container. 'Start Collaboration' & 'Request Media Kit' tabs. Elegant input fields (Shadcn customized with soft borders). Email link."
+      }
+    ]
+  },
+  "image_urls": [
+    {
+      "category": "Hero Background / Portrait Substitute",
+      "url": "https://static.prod-images.emergentagent.com/jobs/642d8b52-b80f-44cc-acab-581dd919f996/images/4ba77ad01ebb05d2777c3017f2b02b41c494ab3f5d93f8426420f05a912655b7.png",
+      "description": "Abstract luxury soft liquid gradient background in champagne beige (Use behind text or as section wrapper if personal photo isn't spanning 100%). *Note: Main Agent must implement a prop/slot for user's personal uploaded photo for the Hero.*"
+    },
+    {
+      "category": "Content Categories (Beauty)",
+      "url": "https://static.prod-images.emergentagent.com/jobs/642d8b52-b80f-44cc-acab-581dd919f996/images/e830639acdb6c7bde215947c39f369e829d9643731ff89907e16e2b210a7fa51.png",
+      "description": "Close up macro shot of soft peach glossy liquid cosmetic texture"
+    },
+    {
+      "category": "Content Categories (Lifestyle/Travel)",
+      "url": "https://static.prod-images.emergentagent.com/jobs/642d8b52-b80f-44cc-acab-581dd919f996/images/2573a92fb03360efef5e1f33b5e313a9dfded538a2195ebcf7a6990a59964b2f.png",
+      "description": "High-end Los Angeles lifestyle aesthetic, soft sunset pastel sky"
+    },
+    {
+      "category": "Content Categories (Fashion)",
+      "url": "https://static.prod-images.emergentagent.com/jobs/642d8b52-b80f-44cc-acab-581dd919f996/images/678683bc257c996ccbc61fd8235ffd3c3b5a0a20f1d8d6a739938256bf53038f.png",
+      "description": "Elegant minimalist fashion studio setup with soft sheer fabric draped"
+    },
+    {
+      "category": "Kick Platform Aesthetic (Live Streaming)",
+      "url": "https://static.prod-images.emergentagent.com/jobs/642d8b52-b80f-44cc-acab-581dd919f996/images/a7d2b5bb53d4226379884ac2db701e530b89dd122c57c6376815c2ae329d09f6.png",
+      "description": "Subtle glowing neon green light bleeding through frosted glass. Use as background for the Kick platform card."
+    },
+    {
+      "category": "Placeholder User Uploads",
+      "url": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=1024",
+      "description": "Stock luxury portrait to be used as a stand-in for Yaren's uploaded personal photos (Hero section)."
+    }
+  ],
+  "data_testid_conventions": {
+    "navigation": "nav-link-[name], lang-toggle-en, lang-toggle-tr",
+    "hero": "hero-section, hero-cta-button",
+    "platform_cards": "platform-card-[name], platform-link-[name]",
+    "forms": "collaboration-form, media-kit-form, form-input-[field], form-submit-btn"
+  },
+  "instructions_to_main_agent": [
+    "Ensure all fonts are imported properly (Cormorant Garamond and Outfit). Do NOT use Inter.",
+    "The UI is primarily Light mode, emphasizing Ivory, Champagne, and Blush.",
+    "For the Kick platform card, break the light mode rule slightly by using a frosted dark slate/black glass with a subtle neon green border/glow. It MUST remain elegant and not feel like a cheap gaming site.",
+    "Spacing is critical. Use py-24 or py-32 for section padding to achieve the 'Vogue-inspired' luxury feel.",
+    "Do NOT use Shadcn Card component for the aesthetic marketing sections as it is too rigid. Use raw Tailwind divs. You can use Shadcn for the CTA Lead Capture form.",
+    "Ensure the EN | TR toggle actually exists in the header (even if functional logic is mocked).",
+    "Use framer-motion for elegant, slow, upward-fading reveals on scroll.",
+    "Do not use generic blue or standard SaaS colors anywhere."
+  ]
+}
