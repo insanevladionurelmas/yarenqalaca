@@ -37,10 +37,50 @@ class StatusCheck(BaseModel):
 class StatusCheckCreate(BaseModel):
     client_name: str
 
+
+class LeadCreate(BaseModel):
+    name: str
+    brand: str | None = None
+    email: str
+    phone: str | None = None
+    message: str | None = None
+    type: str  # "collaboration" or "media_kit"
+
+
+class Lead(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    brand: str | None = None
+    email: str
+    phone: str | None = None
+    message: str | None = None
+    type: str
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Yaren Alaca PR — Multi-Platform Digital Ecosystem"}
+
+
+@api_router.post("/leads", response_model=Lead)
+async def create_lead(payload: LeadCreate):
+    lead = Lead(**payload.model_dump())
+    doc = lead.model_dump()
+    doc['created_at'] = doc['created_at'].isoformat()
+    await db.leads.insert_one(doc)
+    return lead
+
+
+@api_router.get("/leads", response_model=List[Lead])
+async def list_leads():
+    leads = await db.leads.find({}, {"_id": 0}).sort("created_at", -1).to_list(500)
+    for lead in leads:
+        if isinstance(lead.get('created_at'), str):
+            lead['created_at'] = datetime.fromisoformat(lead['created_at'])
+    return leads
 
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):

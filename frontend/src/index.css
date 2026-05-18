@@ -2,114 +2,193 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --background: 252 250 248;       /* Ivory cream */
+    --foreground: 45 36 34;          /* Warm espresso */
+    --surface: 245 239 235;          /* Champagne beige */
+    --surface-foreground: 45 36 34;
+    --primary: 240 168 156;          /* Soft peach / yavruağzı */
+    --primary-foreground: 255 255 255;
+    --secondary: 247 225 222;        /* Pastel blush pink */
+    --secondary-foreground: 74 59 57;
+    --muted: 245 239 235;
+    --muted-foreground: 120 105 100;
+    --accent: 230 224 248;           /* Soft lavender */
+    --accent-foreground: 74 59 57;
+    --rose-gold: 212 175 110;        /* Soft rose gold */
+    --kick-neon: 152 255 152;        /* Elegant subtle neon green */
+    --kick-dark: 20 20 20;
+    --border: 225 215 210;
+    --input: 225 215 210;
+    --ring: 240 168 156;
+    --radius: 1rem;
+}
+
+* {
+    border-color: rgb(var(--border));
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
-    font-family:
-        -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-        "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-        sans-serif;
+    background: rgb(var(--background));
+    color: rgb(var(--foreground));
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 300;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
 }
 
-code {
-    font-family:
-        source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+.font-serif {
+    font-family: 'Cormorant Garamond', serif;
 }
 
-@layer base {
-    :root {
-        --background: 0 0% 100%;
-        --foreground: 0 0% 3.9%;
-        --card: 0 0% 100%;
-        --card-foreground: 0 0% 3.9%;
-        --popover: 0 0% 100%;
-        --popover-foreground: 0 0% 3.9%;
-        --primary: 0 0% 9%;
-        --primary-foreground: 0 0% 98%;
-        --secondary: 0 0% 96.1%;
-        --secondary-foreground: 0 0% 9%;
-        --muted: 0 0% 96.1%;
-        --muted-foreground: 0 0% 45.1%;
-        --accent: 0 0% 96.1%;
-        --accent-foreground: 0 0% 9%;
-        --destructive: 0 84.2% 60.2%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 0 0% 89.8%;
-        --input: 0 0% 89.8%;
-        --ring: 0 0% 3.9%;
-        --chart-1: 12 76% 61%;
-        --chart-2: 173 58% 39%;
-        --chart-3: 197 37% 24%;
-        --chart-4: 43 74% 66%;
-        --chart-5: 27 87% 67%;
-        --radius: 0.5rem;
-    }
-    .dark {
-        --background: 0 0% 3.9%;
-        --foreground: 0 0% 98%;
-        --card: 0 0% 3.9%;
-        --card-foreground: 0 0% 98%;
-        --popover: 0 0% 3.9%;
-        --popover-foreground: 0 0% 98%;
-        --primary: 0 0% 98%;
-        --primary-foreground: 0 0% 9%;
-        --secondary: 0 0% 14.9%;
-        --secondary-foreground: 0 0% 98%;
-        --muted: 0 0% 14.9%;
-        --muted-foreground: 0 0% 63.9%;
-        --accent: 0 0% 14.9%;
-        --accent-foreground: 0 0% 98%;
-        --destructive: 0 62.8% 30.6%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 0 0% 14.9%;
-        --input: 0 0% 14.9%;
-        --ring: 0 0% 83.1%;
-        --chart-1: 220 70% 50%;
-        --chart-2: 160 60% 45%;
-        --chart-3: 30 80% 55%;
-        --chart-4: 280 65% 60%;
-        --chart-5: 340 75% 55%;
-    }
+.font-sans {
+    font-family: 'Outfit', sans-serif;
 }
 
-@layer base {
-    * {
-        @apply border-border;
-    }
-    body {
-        @apply bg-background text-foreground;
-    }
+/* Editorial selection */
+::selection {
+    background: rgb(var(--secondary));
+    color: rgb(var(--foreground));
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: rgb(var(--background));
+}
+::-webkit-scrollbar-thumb {
+    background: rgb(var(--secondary));
+    border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--primary));
+}
+
+/* Floating gradient orbs */
+.gradient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.5;
+    pointer-events: none;
+    will-change: transform;
+}
+
+/* Grain texture overlay */
+.grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.18 0 0 0 0 0.14 0 0 0 0 0.13 0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/></svg>");
+    opacity: 0.06;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+}
+
+/* Marquee */
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+.marquee-track {
+    animation: marquee 40s linear infinite;
+    width: max-content;
+}
+.marquee-slow {
+    animation: marquee 60s linear infinite;
+}
+
+/* Soft floating */
+@keyframes float-soft {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-18px) rotate(2deg); }
+}
+.float-soft {
+    animation: float-soft 9s ease-in-out infinite;
+}
+
+/* Glow pulse for Kick */
+@keyframes kick-pulse {
+    0%, 100% { box-shadow: 0 0 40px rgba(152, 255, 152, 0.18), inset 0 0 0 1px rgba(152, 255, 152, 0.18); }
+    50% { box-shadow: 0 0 60px rgba(152, 255, 152, 0.28), inset 0 0 0 1px rgba(152, 255, 152, 0.32); }
+}
+.kick-glow {
+    animation: kick-pulse 4s ease-in-out infinite;
+}
+
+/* Hero text reveal */
+@keyframes letter-rise {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.editorial-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgb(var(--rose-gold) / 0.4), transparent);
+}
+
+/* Premium button */
+.btn-primary {
+    background: linear-gradient(135deg, rgb(var(--primary)) 0%, rgb(var(--secondary)) 100%);
+    color: rgb(var(--foreground));
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px -8px rgb(var(--primary) / 0.5);
+}
+
+.btn-ghost {
+    border: 1px solid rgb(var(--foreground) / 0.18);
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    background: transparent;
+}
+.btn-ghost:hover {
+    background: rgb(var(--foreground));
+    color: rgb(var(--background));
+    border-color: rgb(var(--foreground));
+}
+
+/* Glass cards */
+.glass-light {
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 8px 32px rgba(45, 36, 34, 0.05);
+}
+
+.glass-blush {
+    background: linear-gradient(135deg, rgba(247, 225, 222, 0.85), rgba(245, 239, 235, 0.75));
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 12px 40px rgba(240, 168, 156, 0.18);
+}
+
+.glass-dark {
+    background: rgba(20, 20, 22, 0.82);
+    backdrop-filter: blur(24px) saturate(140%);
+    border: 1px solid rgba(152, 255, 152, 0.16);
 }
 
 @layer base {
     [data-debug-wrapper="true"] {
         display: contents !important;
     }
-
     [data-debug-wrapper="true"] > * {
-        margin-left: inherit;
-        margin-right: inherit;
-        margin-top: inherit;
-        margin-bottom: inherit;
-        padding-left: inherit;
-        padding-right: inherit;
-        padding-top: inherit;
-        padding-bottom: inherit;
-        column-gap: inherit;
-        row-gap: inherit;
-        gap: inherit;
-        border-left-width: inherit;
-        border-right-width: inherit;
-        border-top-width: inherit;
-        border-bottom-width: inherit;
-        border-left-style: inherit;
-        border-right-style: inherit;
-        border-top-style: inherit;
-        border-bottom-style: inherit;
-        border-left-color: inherit;
-        border-right-color: inherit;
-        border-top-color: inherit;
-        border-bottom-color: inherit;
+        margin-left: inherit; margin-right: inherit; margin-top: inherit; margin-bottom: inherit;
+        padding-left: inherit; padding-right: inherit; padding-top: inherit; padding-bottom: inherit;
+        column-gap: inherit; row-gap: inherit; gap: inherit;
+        border-left-width: inherit; border-right-width: inherit; border-top-width: inherit; border-bottom-width: inherit;
+        border-left-style: inherit; border-right-style: inherit; border-top-style: inherit; border-bottom-style: inherit;
+        border-left-color: inherit; border-right-color: inherit; border-top-color: inherit; border-bottom-color: inherit;
     }
 }
