@@ -286,6 +286,181 @@ async def admin_allowed_tags(admin: dict = Depends(get_current_admin)):
 
 
 # ============================================================
+# Campaign portfolio
+# ============================================================
+CAMPAIGN_CATEGORIES = [
+    "Beauty", "Fashion", "Lifestyle", "Entertainment",
+    "Personal Care", "Technology", "Streaming / Entertainment", "Other",
+]
+
+
+class CampaignCreate(BaseModel):
+    title: str = Field(min_length=1, max_length=200)
+    brand: str = Field(min_length=1, max_length=120)
+    category: str
+    image_url: Optional[str] = None
+    link: Optional[str] = None
+    description: Optional[str] = Field(default=None, max_length=600)
+    featured: bool = False
+    display_order: int = 0
+    visible: bool = True
+
+
+class CampaignUpdate(BaseModel):
+    title: Optional[str] = None
+    brand: Optional[str] = None
+    category: Optional[str] = None
+    image_url: Optional[str] = None
+    link: Optional[str] = None
+    description: Optional[str] = None
+    featured: Optional[bool] = None
+    display_order: Optional[int] = None
+    visible: Optional[bool] = None
+
+
+class Campaign(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str
+    title: str
+    brand: str
+    category: str
+    image_url: Optional[str] = None
+    link: Optional[str] = None
+    description: Optional[str] = None
+    featured: bool = False
+    display_order: int = 0
+    visible: bool = True
+    created_at: datetime
+
+
+@api_router.get("/campaigns", response_model=List[Campaign])
+async def public_campaigns():
+    cursor = db.campaigns.find({"visible": True}, {"_id": 0}).sort([("display_order", 1), ("created_at", -1)])
+    items = await cursor.to_list(200)
+    for it in items:
+        if isinstance(it.get("created_at"), str):
+            try: it["created_at"] = datetime.fromisoformat(it["created_at"])
+            except Exception: it["created_at"] = datetime.now(timezone.utc)
+    return items
+
+
+@auth_router.get("/campaigns", response_model=List[Campaign])
+async def admin_list_campaigns(admin: dict = Depends(get_current_admin)):
+    cursor = db.campaigns.find({}, {"_id": 0}).sort([("display_order", 1), ("created_at", -1)])
+    items = await cursor.to_list(500)
+    for it in items:
+        if isinstance(it.get("created_at"), str):
+            try: it["created_at"] = datetime.fromisoformat(it["created_at"])
+            except Exception: it["created_at"] = datetime.now(timezone.utc)
+    return items
+
+
+@auth_router.post("/campaigns", response_model=Campaign)
+async def admin_create_campaign(payload: CampaignCreate, admin: dict = Depends(get_current_admin)):
+    if payload.category not in CAMPAIGN_CATEGORIES:
+        raise HTTPException(400, detail=f"Invalid category. Allowed: {CAMPAIGN_CATEGORIES}")
+    now = datetime.now(timezone.utc)
+    doc = payload.model_dump()
+    doc["id"] = str(uuid.uuid4())
+    doc["created_at"] = now.isoformat()
+    await db.campaigns.insert_one(doc)
+    return {**doc, "created_at": now}
+
+
+@auth_router.patch("/campaigns/{cid}", response_model=Campaign)
+async def admin_update_campaign(cid: str, payload: CampaignUpdate, admin: dict = Depends(get_current_admin)):
+    update = {k: v for k, v in payload.model_dump(exclude_unset=True).items() if v is not None}
+    if "category" in update and update["category"] not in CAMPAIGN_CATEGORIES:
+        raise HTTPException(400, detail="Invalid category")
+    if not update:
+        raise HTTPException(400, detail="No changes")
+    res = await db.campaigns.find_one_and_update(
+        {"id": cid}, {"$set": update}, projection={"_id": 0}, return_document=True,
+    )
+    if not res:
+        raise HTTPException(404, detail="Campaign not found")
+    if isinstance(res.get("created_at"), str):
+        try: res["created_at"] = datetime.fromisoformat(res["created_at"])
+        except Exception: res["created_at"] = datetime.now(timezone.utc)
+    return res
+
+
+@auth_router.delete("/campaigns/{cid}")
+async def admin_delete_campaign(cid: str, admin: dict = Depends(get_current_admin)):
+    res = await db.campaigns.delete_one({"id": cid})
+    if res.deleted_count == 0:
+        raise HTTPException(404, detail="Campaign not found")
+    return {"deleted": True}
+
+
+@auth_router.get("/campaign-categories")
+async def admin_campaign_categories(admin: dict = Depends(get_current_admin)):
+    return {"categories": CAMPAIGN_CATEGORIES}
+
+
+# ============================================================
+# Site Settings (editable brand list, audience insights, CTAs)
+# ============================================================
+DEFAULT_SITE_SETTINGS = {
+    "brands": [
+        "NYX Professional Makeup", "Sephora", "Adidas", "L'Oréal Paris",
+        "Maybelline", "YSL Beauty", "Lancôme", "Benefit Cosmetics",
+        "Too Faced", "Swarovski", "Netflix", "Prime Video",
+        "CeraVe", "Bioderma", "OGX", "Philips",
+        "Sensodyne", "Colgate", "Vaseline", "ghd", "Make Up For Ever",
+    ],
+    "audience_gender_primary": {"women": 61, "men": 37, "other": 2},
+    "audience_gender_secondary": {"women": 52.3, "men": 47.7},
+    "age_ranges": [
+        {"label": "18–24", "value": 49.3},
+        {"label": "25–34", "value": 36.9},
+        {"label": "35–44", "value": 7.0},
+        {"label": "13–17", "value": 3.5},
+    ],
+    "top_countries_audience": [
+        {"name": "Turkey", "value": 91.3},
+        {"name": "Azerbaijan", "value": 2.3},
+        {"name": "Germany", "value": 1.0},
+        {"name": "Cyprus", "value": 0.9},
+    ],
+    "top_countries_location": [
+        {"name": "Turkey", "value": 59.9},
+        {"name": "United States", "value": 8.9},
+        {"name": "Azerbaijan", "value": 2.0},
+        {"name": "Germany", "value": 0.9},
+        {"name": "Brazil", "value": 0.6},
+    ],
+    "media_kit_cta_title": "Request Full Media Kit",
+    "media_kit_cta_text": "Get updated audience data, platform statistics, campaign formats and collaboration options.",
+    "media_kit_cta_button": "Request Media Kit",
+}
+
+
+@api_router.get("/site-settings")
+async def public_site_settings():
+    doc = await db.site_settings.find_one({"id": "default"}, {"_id": 0, "id": 0})
+    # Merge with defaults so missing keys always present
+    merged = {**DEFAULT_SITE_SETTINGS, **(doc or {})}
+    return merged
+
+
+@auth_router.put("/site-settings")
+async def admin_update_settings(payload: dict, admin: dict = Depends(get_current_admin)):
+    # Whitelist keys
+    allowed = set(DEFAULT_SITE_SETTINGS.keys())
+    sanitized = {k: v for k, v in payload.items() if k in allowed}
+    if not sanitized:
+        raise HTTPException(400, detail="No valid fields")
+    await db.site_settings.update_one(
+        {"id": "default"},
+        {"$set": {**sanitized, "id": "default"}},
+        upsert=True,
+    )
+    doc = await db.site_settings.find_one({"id": "default"}, {"_id": 0, "id": 0})
+    return {**DEFAULT_SITE_SETTINGS, **(doc or {})}
+
+
+# ============================================================
 # Startup: seed admin, indexes
 # ============================================================
 async def seed_admin():
@@ -318,7 +493,84 @@ async def on_startup():
     await db.admins.create_index("id", unique=True)
     await db.leads.create_index("id", unique=True)
     await db.leads.create_index("created_at")
+    await db.campaigns.create_index("id", unique=True)
+    await db.campaigns.create_index([("display_order", 1)])
     await seed_admin()
+    await seed_campaigns()
+
+
+SEED_CAMPAIGNS = [
+    {
+        "title": "Adidas Originals · Express Your Originality",
+        "brand": "Adidas",
+        "category": "Fashion",
+        "image_url": "https://customer-assets.emergentagent.com/job_yaren-pr-ecosystem/artifacts/renlwv5r_3ef5e268-0b7e-4c43-931f-3b9d1f9f617a.JPG",
+        "link": None,
+        "description": "Adidas Originals creator event — global youth culture campaign celebrating individual expression.",
+        "featured": True,
+        "display_order": 1,
+        "visible": True,
+    },
+    {
+        "title": "Sephora LOVES Yaren",
+        "brand": "Sephora",
+        "category": "Beauty",
+        "image_url": "https://customer-assets.emergentagent.com/job_yaren-pr-ecosystem/artifacts/ttdcc27s_332da24c-fc0b-4112-98b9-b98093c25af2.JPG",
+        "link": None,
+        "description": "Sephora exclusive collaboration spotlighting Yaren as a featured beauty personality.",
+        "featured": True,
+        "display_order": 2,
+        "visible": True,
+    },
+    {
+        "title": "Sol de Janeiro · Body Care Editorial",
+        "brand": "Sol de Janeiro",
+        "category": "Personal Care",
+        "image_url": "https://customer-assets.emergentagent.com/job_yaren-pr-ecosystem/artifacts/ctoq6wk6_3d86ff62-8694-492a-91d4-82c0ef021875.JPG",
+        "link": None,
+        "description": "Editorial body-care campaign with Sol de Janeiro — soft luxury beauty storytelling.",
+        "featured": True,
+        "display_order": 3,
+        "visible": True,
+    },
+    {
+        "title": "The Traitors Türkiye — Prime Video",
+        "brand": "Prime Video",
+        "category": "Streaming / Entertainment",
+        "image_url": "https://customer-assets.emergentagent.com/job_yaren-pr-ecosystem/artifacts/0d0cjv78_79993673-32f2-4ab0-bfa4-99b20b167111.JPG",
+        "link": None,
+        "description": "Featured cast member on Prime Video original 'The Traitors Türkiye' — global streaming visibility.",
+        "featured": True,
+        "display_order": 4,
+        "visible": True,
+    },
+    {
+        "title": "Tamirhane Film Premiere",
+        "brand": "Tamirhane",
+        "category": "Entertainment",
+        "image_url": "https://customer-assets.emergentagent.com/job_yaren-pr-ecosystem/artifacts/jwqhm329_68ce5e8d-e314-4aa0-aeb3-aa9461c6a6fb.JPG",
+        "link": None,
+        "description": "Red carpet premiere appearance for the Turkish feature film 'Tamirhane'.",
+        "featured": False,
+        "display_order": 5,
+        "visible": True,
+    },
+]
+
+
+async def seed_campaigns():
+    # Only seed if collection is empty (idempotent)
+    count = await db.campaigns.count_documents({})
+    if count > 0:
+        return
+    now = datetime.now(timezone.utc).isoformat()
+    docs = [{
+        **c,
+        "id": str(uuid.uuid4()),
+        "created_at": now,
+    } for c in SEED_CAMPAIGNS]
+    await db.campaigns.insert_many(docs)
+    logging.info("Seeded %d campaigns", len(docs))
 
 
 @app.on_event("shutdown")

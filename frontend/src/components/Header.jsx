@@ -3,8 +3,8 @@ import { useLang } from "../i18n.jsx";
 
 const NAV_ITEMS = [
   { key: "platforms", href: "#platforms" },
-  { key: "impact", href: "#impact" },
-  { key: "categories", href: "#categories" },
+  { key: "audience", href: "#audience" },
+  { key: "portfolio", href: "#portfolio" },
   { key: "campaigns", href: "#campaigns" },
   { key: "contact", href: "#contact" },
 ];

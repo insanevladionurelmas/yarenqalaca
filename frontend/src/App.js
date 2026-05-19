@@ -6,9 +6,14 @@ import Header from "@/components/Header.jsx";
 import Hero from "@/components/Hero.jsx";
 import PlatformPower from "@/components/PlatformPower.jsx";
 import CrossImpact from "@/components/CrossImpact.jsx";
+import TrustedBrands from "@/components/TrustedBrands.jsx";
+import AudienceInsights from "@/components/AudienceInsights.jsx";
 import Categories from "@/components/Categories.jsx";
+import CampaignPortfolio from "@/components/CampaignPortfolio.jsx";
 import CampaignSystem from "@/components/CampaignSystem.jsx";
+import WhyBrands from "@/components/WhyBrands.jsx";
 import SocialSlider from "@/components/SocialSlider.jsx";
+import MediaKitCTA from "@/components/MediaKitCTA.jsx";
 import FinalCTA from "@/components/FinalCTA.jsx";
 import Footer from "@/components/Footer.jsx";
 
@@ -24,9 +29,14 @@ const Home = () => (
       <Hero />
       <PlatformPower />
       <CrossImpact />
+      <TrustedBrands />
+      <AudienceInsights />
       <Categories />
+      <CampaignPortfolio />
       <CampaignSystem />
+      <WhyBrands />
       <SocialSlider />
+      <MediaKitCTA />
       <FinalCTA />
     </main>
     <Footer />

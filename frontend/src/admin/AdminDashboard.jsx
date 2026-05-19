@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useState, useCallback } from "react";
 import { useAdminAuth, formatApiError } from "./AuthContext.jsx";
+import AdminCampaigns from "./AdminCampaigns.jsx";
+import AdminSettings from "./AdminSettings.jsx";
 import {
   LogOut, Search, Download, Mail, Phone, X, Trash2,
   Filter, Tag, Flame, RefreshCw, ChevronDown,
@@ -35,6 +37,7 @@ function fmt(d) {
 
 export default function AdminDashboard() {
   const { admin, logout, api } = useAdminAuth();
+  const [view, setView] = useState("leads"); // "leads" | "campaigns" | "settings"
   const [leads, setLeads] = useState([]);
   const [stats, setStats] = useState(null);
   const [allTags, setAllTags] = useState([]);
@@ -133,16 +136,20 @@ export default function AdminDashboard() {
             <div className="font-serif text-lg tracking-[0.18em] uppercase">
               Yaren <span className="italic text-[#F0A89C] font-light">Alaca</span>
             </div>
-            <span className="text-[10px] tracking-[0.22em] uppercase text-white/40 border-l border-white/10 pl-3">Lead Console</span>
+            <span className="text-[10px] tracking-[0.22em] uppercase text-white/40 border-l border-white/10 pl-3">Admin Console</span>
           </div>
           <div className="flex items-center gap-3 text-xs">
             <span className="text-white/55 hidden sm:inline">{admin?.email}</span>
-            <button onClick={loadLeads} data-testid="admin-refresh-btn" className="p-2 rounded-full hover:bg-white/5 transition-colors" title="Refresh">
-              <RefreshCw className="w-4 h-4" />
-            </button>
-            <button onClick={exportCsv} data-testid="admin-export-csv" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-[10px] tracking-[0.22em] uppercase transition-colors">
-              <Download className="w-3 h-3" /> CSV
-            </button>
+            {view === "leads" && (
+              <>
+                <button onClick={loadLeads} data-testid="admin-refresh-btn" className="p-2 rounded-full hover:bg-white/5 transition-colors" title="Refresh">
+                  <RefreshCw className="w-4 h-4" />
+                </button>
+                <button onClick={exportCsv} data-testid="admin-export-csv" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-[10px] tracking-[0.22em] uppercase transition-colors">
+                  <Download className="w-3 h-3" /> CSV
+                </button>
+              </>
+            )}
             <button onClick={logout} data-testid="admin-logout-btn" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] tracking-[0.22em] uppercase text-white/70 hover:text-white transition-colors">
               <LogOut className="w-3 h-3" /> Logout
             </button>
@@ -151,6 +158,29 @@ export default function AdminDashboard() {
       </header>
 
       <main className="max-w-[1400px] mx-auto px-6 py-10">
+        {/* View tabs */}
+        <div className="flex items-center gap-1 mb-8 p-1 rounded-full bg-white/5 border border-white/10 w-fit" data-testid="admin-view-tabs">
+          {[
+            { k: "leads", label: "Leads" },
+            { k: "campaigns", label: "Campaigns" },
+            { k: "settings", label: "Site Settings" },
+          ].map((v) => (
+            <button
+              key={v.k}
+              data-testid={`admin-tab-${v.k}`}
+              onClick={() => setView(v.k)}
+              className={`px-5 py-2 rounded-full text-[10px] tracking-[0.22em] uppercase transition-all ${
+                view === v.k ? "bg-white text-[#0F0E0D]" : "text-white/65 hover:text-white"
+              }`}
+            >
+              {v.label}
+            </button>
+          ))}
+        </div>
+
+        {view === "campaigns" && <AdminCampaigns />}
+        {view === "settings" && <AdminSettings />}
+        {view === "leads" && (<>
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 mb-8" data-testid="admin-stats-grid">
           {statCards.map((s) => (
@@ -241,6 +271,7 @@ export default function AdminDashboard() {
           </div>
         </div>
         <div className="mt-3 text-xs text-white/40">{leads.length} lead{leads.length === 1 ? "" : "s"}</div>
+        </>)}
       </main>
 
       {selected && (

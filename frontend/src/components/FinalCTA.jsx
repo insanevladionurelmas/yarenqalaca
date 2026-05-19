@@ -15,6 +15,15 @@ export default function FinalCTA() {
   const [form, setForm] = useState({ name: "", brand: "", email: "", phone: "", message: "" });
   const [status, setStatus] = useState({ loading: false, ok: null, err: null });
 
+  React.useEffect(() => {
+    const handler = () => {
+      setTab("media_kit");
+      setStatus({ loading: false, ok: null, err: null });
+    };
+    document.addEventListener("yapr:request-media-kit", handler);
+    return () => document.removeEventListener("yapr:request-media-kit", handler);
+  }, []);
+
   const handle = (k) => (e) => setForm({ ...form, [k]: e.target.value });
 
   const submit = async (e) => {
